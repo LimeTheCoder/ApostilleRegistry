@@ -2,8 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
-import datetime
+import django.utils
 
 # Create your models here.
 
@@ -78,7 +77,7 @@ class DepartmentUser(models.Model):
 
 
 class ApostilleRequest(models.Model):
-    application_date = models.DateTimeField('Application Date', default=datetime.datetime.now())
+    application_date = models.DateTimeField('Application Date', default=django.utils.timezone.now)
     payment_file = models.FileField()
     is_open = models.BooleanField(default=True)
     document = models.OneToOneField(Document, on_delete=models.CASCADE)

@@ -13,6 +13,8 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 	def get_form(self, request, obj=None, **kwargs):
 		if not request.user.is_superuser:
 			self.exclude = ('application_date', 'is_open')
+		else:
+			self.include = ('application_date', 'is_open')
 			
 		form = super(ApostilleRequestAdmin, self).get_form(request, obj, **kwargs)
 		return form

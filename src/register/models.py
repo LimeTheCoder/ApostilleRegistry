@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+
+import datetime
 
 # Create your models here.
 
@@ -48,7 +51,9 @@ class Document(models.Model):
     name = models.CharField(max_length=100)
     issue_date = models.DateField('Issue Date')
     file = models.FileField()
-    signer = models.ForeignKey(Person, on_delete=models.CASCADE)
+    signer_name = models.CharField(max_length=50)
+    signer_surname = models.CharField(max_length=50)
+    signer_patronymic = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name.encode('utf8')
@@ -63,13 +68,21 @@ class Apostille(models.Model):
         return self.document.name.encode('utf8')
 
 
+class DepartmentUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    department = models.OneToOneField(Department, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.user.username.encode('utf8')
+
+
 class ApostilleRequest(models.Model):
-    applicant_name = models.CharField(max_length=150)
-    receiving_date = models.DateTimeField('Receiving Date')
+    application_date = models.DateTimeField('Application Date', default=datetime.datetime.now())
     payment_file = models.FileField()
-    is_open = models.BooleanField()
+    is_open = models.BooleanField(default=True)
     document = models.OneToOneField(Document, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    user = models.ForeignKey(DepartmentUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.document.name.encode('utf8')

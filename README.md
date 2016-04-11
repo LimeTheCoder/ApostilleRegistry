@@ -1,2 +1,2 @@
-# ApostilleRegister
+# ApostilleRegistry
 Course Project

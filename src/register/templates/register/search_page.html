@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+ {% load staticfiles %}
+<html>
+	<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+      
+      <link rel="stylesheet" href="{% static 'css/search_page.css' %}">
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      
+   </head>
+   <body>
+<div class="jumbotron">
+    <h1><center>Apostille Registry</center></h1>
+    <p><center>Check your apostille now!</center></p> 
+  </div>
+
+   {% if error_msg %}
+   	<div class="alert alert-danger">
+  		<strong>Error!</strong> {{ error_msg }}
+	</div>
+   {% endif %}
+
+    <form class='form-inline' role="form" method="post">
+     {% csrf_token %}
+     <div class="form-group">
+    <label for="id" class="margin_class">Apostille number: </label>
+    <input id="id" class="form-control margin_class" type="number" name="id">
+    </div>
+     <div class="form-group">
+    <label for="placing_date" class="margin_class">Placing date: </label>
+    <input id="placing_date" class="form-control margin_class" type="date" name="placing_date">
+    </div>
+    <button type="submit" class="btn btn-primary margin_class"><span class="glyphicon glyphicon-search"></span> Search</button>
+</form>
+      <body>
+</html>

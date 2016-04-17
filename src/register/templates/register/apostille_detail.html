@@ -1,0 +1,11 @@
+<html>
+<h1>Apostille</h1>
+{% if apostille %}
+<p>{{ apostille.placing_date }}<p>
+<p>{{ apostille.document }}<p>
+<p>{{ apostille.validator }}<p>
+<p>{{ apostille.id }}<p>
+{% else %}
+<p>Apostille not found<p>
+{% endif %}
+</html>

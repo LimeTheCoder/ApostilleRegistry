@@ -8,13 +8,13 @@ from django.contrib.auth.models import User
 # Register your models here.
 
 class ApostilleRequestAdmin(admin.ModelAdmin):
-	list_display = ('document', 'is_open')
+	list_display = ('document', 'status')
 
 	def get_form(self, request, obj=None, **kwargs):
-		if not request.user.is_superuser:
-			self.exclude = ('application_date', 'is_open')
+		if request.user.is_superuser:
+			self.fields = ('document', 'payment_file', 'application_date', 'status', 'user')
 		else:
-			self.include = ('application_date', 'is_open')
+			self.fields = ('document', 'payment_file')
 			
 		form = super(ApostilleRequestAdmin, self).get_form(request, obj, **kwargs)
 		return form
@@ -24,6 +24,7 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 		if request.user.is_superuser:
 			return qs
 		return qs.filter(user__user=request.user)
+
 
 
 class DepartmentUserInline(admin.StackedInline):

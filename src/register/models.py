@@ -6,6 +6,7 @@ import django.utils
 
 # Create your models here.
 
+STATUS_CHOICES  =(('p', 'Pending'), ('a', 'Approved'), ('r', 'Rejected'))
 
 class Organ(models.Model):
     name = models.CharField(max_length=200)
@@ -79,7 +80,7 @@ class DepartmentUser(models.Model):
 class ApostilleRequest(models.Model):
     application_date = models.DateTimeField('Application Date', default=django.utils.timezone.now)
     payment_file = models.FileField()
-    is_open = models.BooleanField(default=True)
+    status = models.CharField(max_length=1, default='p', choices=STATUS_CHOICES)
     document = models.OneToOneField(Document, on_delete=models.CASCADE)
     user = models.ForeignKey(DepartmentUser, on_delete=models.CASCADE)
 

@@ -1,11 +1,116 @@
+<!DOCTYPE html>
+{% load staticfiles %}
 <html>
-<h1>Apostille</h1>
-{% if apostille %}
-<p>{{ apostille.placing_date }}<p>
-<p>{{ apostille.document }}<p>
-<p>{{ apostille.validator }}<p>
-<p>{{ apostille.id }}<p>
-{% else %}
-<p>Apostille not found<p>
-{% endif %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'css/search_page.css' %}">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-12">
+          <h1><center>Apostille Registry</center></h1>
+          <p><center>Check your apostille now!</center></p> 
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="col-md-6 col-md-offset-3">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Апостиль #{{ apostille.id }}</h3>
+            </div>
+            <div class="table">
+              <table class="table table-stripped table-bordered table-hover">
+                <tbody>
+                  
+                  <tr>
+                    <td>Країна</td>
+                    <td>Україна</td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" align="center">Цей офіційний документ</td>
+                  </tr>
+
+                  <tr>
+                    <td>Підписаний</td>
+                    <td> 
+                      {{ apostille.document.signer_name }} 
+                      {{ apostille.document.signer_surname }} 
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>містить проставлену печатку / штамп</td>
+                    <td> {{ apostille.validator.organ }} </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" align="center">Підтверджено</td>
+                  </tr>
+
+                  <tr>
+                    <td>В</td>
+                    <td>м.Києві</td>
+                  </tr>
+
+                  <tr>
+                    <td>Дата</td>
+                    <td>{{ apostille.placing_date }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Ким</td>
+                    <td>{{ apostille.validator.position }}, 
+                        {{ apostille.validator.surname }} 
+                        {{ apostille.validator.name }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>за №</td>
+                    <td>{{ apostille.id }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Печатка - штамп</td>
+                    <td>Підпис</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <img
+                        width="200" height="80"
+                        src="{{ apostille.validator.signet.stamp.url }}" alt="" />
+                    </td>
+                    <td>
+                      <img
+                        width="200" height="80"
+                        src="{{ apostille.validator.signet.sign.url }}" alt="" />
+                    </td>
+                  </tr>
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+<body>
 </html>

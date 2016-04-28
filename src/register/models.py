@@ -20,6 +20,8 @@ class Organ(models.Model):
 class Department(models.Model):
     code = models.IntegerField(primary_key=True)
     organ = models.OneToOneField(Organ, on_delete=models.CASCADE)
+    icon = models.ImageField(default=(settings.MEDIA_URL + '/apostille.jpg'))
+
     def __str__(self):
         return self.organ.name.encode('utf8')
 
@@ -59,20 +61,9 @@ class Document(models.Model):
         return self.name.encode('utf8')
 
 
-class Apostille(models.Model):
-    placing_date = models.DateField('Placing date')
-    document = models.OneToOneField(Document, on_delete=models.CASCADE)
-    validator = models.ForeignKey(Person, on_delete=models.CASCADE)
-    icon = models.ImageField(default=(settings.MEDIA_URL + '/apostille.jpg'))
-
-    def __str__(self):
-        return self.document.name.encode('utf8')
-
-
 class DepartmentUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.OneToOneField(Department, on_delete=models.CASCADE)
-
 
     def __str__(self):
         return self.user.username.encode('utf8')
@@ -87,3 +78,12 @@ class ApostilleRequest(models.Model):
 
     def __str__(self):
         return self.document.name.encode('utf8')
+
+
+class Apostille(models.Model):
+    placing_date = models.DateField('Placing date')
+    request = models.OneToOneField(ApostilleRequest, on_delete=models.CASCADE)
+    validator = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.request.document.name.encode('utf8')

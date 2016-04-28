@@ -7,16 +7,24 @@ from django.contrib.auth.models import User
 
 # Register your models here.
 
+
 class ApostilleRequestAdmin(admin.ModelAdmin):
 	list_display = ('document', 'status')
 
+	def get_readonly_fields(self, request, obj=None):
+		if obj and not request.user.is_superuser:
+			return self.readonly_fields + tuple(['document', 'payment_file', 'user'])
+		return self.readonly_fields
+
 	def get_form(self, request, obj=None, **kwargs):
-		if request.user.is_superuser:
-			self.fields = ('document', 'payment_file', 'application_date', 'status', 'user')
-		else:
-			self.fields = ('document', 'payment_file')
-			
+		self.fields = ('document', 'payment_file', 'application_date', 'status', 'user')
 		form = super(ApostilleRequestAdmin, self).get_form(request, obj, **kwargs)
+
+		#form.base_fields['user'].initial = DepartmentUser.objects.get(user = request.user)
+
+		if not request.user.is_superuser:
+			self.fields = ('document', 'payment_file', 'user')
+			
 		return form
 
 	def get_queryset(self, request):

@@ -20,7 +20,6 @@ class Organ(models.Model):
 class Department(models.Model):
     code = models.IntegerField(primary_key=True)
     organ = models.OneToOneField(Organ, on_delete=models.CASCADE)
-    icon = models.ImageField(default=(settings.MEDIA_URL + '/apostille.jpg'))
     def __str__(self):
         return self.organ.name.encode('utf8')
 
@@ -64,6 +63,7 @@ class Apostille(models.Model):
     placing_date = models.DateField('Placing date')
     document = models.OneToOneField(Document, on_delete=models.CASCADE)
     validator = models.ForeignKey(Person, on_delete=models.CASCADE)
+    icon = models.ImageField(default=(settings.MEDIA_URL + '/apostille.jpg'))
 
     def __str__(self):
         return self.document.name.encode('utf8')

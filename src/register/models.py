@@ -18,7 +18,6 @@ class Organ(models.Model):
 
 
 class Department(models.Model):
-    code = models.IntegerField(primary_key=True)
     organ = models.OneToOneField(Organ, on_delete=models.CASCADE)
     icon = models.ImageField(default=(settings.MEDIA_URL + '/apostille.jpg'))
 

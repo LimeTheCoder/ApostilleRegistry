@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 class ApostilleRequestAdmin(admin.ModelAdmin):
 	list_display = ('document', 'status')
+	search_fields = ['document__name', 'user__user__username']
 
 	def get_readonly_fields(self, request, obj=None):
 		if obj and not request.user.is_superuser:
@@ -34,6 +35,25 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 		return qs.filter(user__user=request.user)
 
 
+class ApostilleAdmin(admin.ModelAdmin):
+	search_fields = ['request__document__name', 'validator__name', 'validator__surname']
+
+
+class DocumentAdmin(admin.ModelAdmin):
+	search_fields = ['name', 'signer_name', 'signer_surname']
+
+
+class PersonAdmin(admin.ModelAdmin):
+	search_fields = ['name', 'surname', 'position']
+
+
+class OrganAdmin(admin.ModelAdmin):
+	search_fields = ['name', 'location']
+
+
+class DepartmentAdmin(admin.ModelAdmin):
+	search_fields = ['organ__name', 'organ__location']
+
 
 class DepartmentUserInline(admin.StackedInline):
 	model = DepartmentUser
@@ -48,10 +68,10 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Person)
-admin.site.register(Department)
-admin.site.register(Organ)
+admin.site.register(Person, PersonAdmin)
+admin.site.register(Department, DepartmentAdmin)
+admin.site.register(Organ, OrganAdmin)
 admin.site.register(Signet)
-admin.site.register(Document)
-admin.site.register(Apostille)
+admin.site.register(Document, DocumentAdmin)
+admin.site.register(Apostille, ApostilleAdmin)
 admin.site.register(ApostilleRequest, ApostilleRequestAdmin)

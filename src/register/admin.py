@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 # Register your models here.
 
+admin.site.disable_action('delete_selected')
 
 class ApostilleRequestAdmin(admin.ModelAdmin):
 	list_display = ('document', 'status')
@@ -20,8 +21,6 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 	def get_form(self, request, obj=None, **kwargs):
 		self.fields = ('document', 'payment_file', 'application_date', 'status', 'user')
 		form = super(ApostilleRequestAdmin, self).get_form(request, obj, **kwargs)
-
-		#form.base_fields['user'].initial = DepartmentUser.objects.get(user = request.user)
 
 		if not request.user.is_superuser:
 			self.fields = ('document', 'payment_file', 'user')
@@ -37,6 +36,13 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 
 class ApostilleAdmin(admin.ModelAdmin):
 	search_fields = ['request__document__name', 'validator__name', 'validator__surname']
+	list_display = ('get_name', 'validator')
+
+	def get_name(self, obj):
+		return obj.request
+
+	get_name.short_description = 'Document'
+	get_name.admin_order_field = 'request__document__name'
 
 
 class DocumentAdmin(admin.ModelAdmin):

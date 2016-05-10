@@ -12,11 +12,13 @@ def search(request):
 
 		try:
 			apostille = Apostille.objects.get(id=apostille_id, placing_date=date)
-		except:
+		except Apostille.DoesNotExist:
 			return render(request, 'register/search_page.html', {'error_msg' : "Apostille does not exist"})
+		except:
+			return render(request, 'register/search_page.html', {'error_msg' : "Incorrect data. Provide valid data."})
 
 		request.session['form-submitted'] = True
-		return redirect('register.views.apostille_detail', apostille.id)
+		return redirect('apostille_detail', apostille.id)
 	
 	return render(request, 'register/search_page.html')
 

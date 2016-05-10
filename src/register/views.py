@@ -12,7 +12,7 @@ def search(request):
 
 		try:
 			apostille = Apostille.objects.get(id=apostille_id, placing_date=date)
-		except Apostille.DoesNotExist:
+		except:
 			return render(request, 'register/search_page.html', {'error_msg' : "Apostille does not exist"})
 
 		request.session['form-submitted'] = True

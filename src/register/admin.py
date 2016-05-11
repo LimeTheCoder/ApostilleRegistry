@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 admin.site.disable_action('delete_selected')
 
+
 class ApostilleRequestAdmin(admin.ModelAdmin):
 	list_display = ('document', 'status')
 	search_fields = ['document__name', 'user__user__username']
@@ -40,6 +41,11 @@ class ApostilleAdmin(admin.ModelAdmin):
 
 	def get_name(self, obj):
 		return obj.request
+
+	def get_readonly_fields(self, request, obj=None):
+		if obj and not request.user.is_superuser:
+			return self.readonly_fields + tuple(['placing_date', 'request', 'validator'])
+		return self.readonly_fields
 
 	get_name.short_description = 'Document'
 	get_name.admin_order_field = 'request__document__name'

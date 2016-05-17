@@ -123,3 +123,5 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')
 MEDIA_URL = '/media/'
+
+ADMIN_SITE_HEADER = "Apostille Registry administration"

@@ -5,9 +5,12 @@ from .models import Person, Department, Organ, Signet, Document, Apostille, Apos
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
+from django.conf import settings
+
 # Register your models here.
 
 admin.site.disable_action('delete_selected')
+admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 
 class ApostilleRequestAdmin(admin.ModelAdmin):
@@ -46,6 +49,13 @@ class ApostilleAdmin(admin.ModelAdmin):
 		if obj and not request.user.is_superuser:
 			return self.readonly_fields + tuple(['placing_date', 'request', 'validator'])
 		return self.readonly_fields
+
+
+	def get_queryset(self, request):
+		qs = super(ApostilleAdmin, self).get_queryset(request)
+		if request.user.is_superuser:
+			return qs
+		return qs.filter(request__user__user=request.user)
 
 	get_name.short_description = 'Document'
 	get_name.admin_order_field = 'request__document__name'

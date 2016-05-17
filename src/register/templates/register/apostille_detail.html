@@ -92,12 +92,12 @@
                     <td>
                       <img
                         width="200" height="80"
-                        src="{{ apostille.validator.signet.stamp.url }}" alt="" />
+                        src="http://127.0.0.1:8000{{ apostille.validator.signet.stamp.url }}" alt="" />
                     </td>
                     <td>
                       <img
                         width="200" height="80"
-                        src="{{ apostille.validator.signet.sign.url }}" alt="" />
+                        src="http://127.0.0.1:8000{{ apostille.validator.signet.sign.url }}" alt="" />
                     </td>
                   </tr>
 
@@ -106,7 +106,7 @@
                     <td colspan="2">
                       <img
                         width="200" height="120" align="center"
-                        src="{{ apostille.request.user.department.icon.url }}" alt="" />
+                        src="http://127.0.0.1:8000{{ apostille.request.user.department.icon.url }}" alt="" />
                     </td>
                   </tr>
 
@@ -116,6 +116,15 @@
             </div>
           </div>
         </div>
+
+        {% if not export_mode %}
+
+        <form action= {{ request.get_full_path }} method="get" role="form">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success" name="to_pdf_btn">Download as pdf</button>
+        </form>
+
+        {% endif %}
 
       </div>
     </div>

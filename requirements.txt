@@ -1,3 +1,5 @@
 Django==1.9.3
 Pillow==3.1.1
 wheel==0.24.0
+pdfkit==0.5.0
+wkhtmltopdf==0.2

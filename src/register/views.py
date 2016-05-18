@@ -28,19 +28,20 @@ def search(request):
 
 
 def apostille_detail(request, id):
-	#if not request.session.get('form-submitted', False):
-	#	return HttpResponse("No such page")
-
-
-	apostille = get_object_or_404(Apostille, pk=id)
-	context = {'apostille' : apostille}
 
 	if 'to_pdf_btn' in request.GET:
-		context['export_mode'] = True
+		apostille = get_object_or_404(Apostille, pk=id)
+		context = {'apostille' : apostille, 'export_mode' : True}
+		request.session['form_submitted'] = True
 		return render_to_pdf('register/apostille_detail.html', context)
 
-	context['export_mode'] = False
-	#request.session['form-submitted'] = False
+
+	if not request.session.get('form-submitted', False):
+		return HttpResponse("No such page")
+
+	apostille = get_object_or_404(Apostille, pk=id)
+	context = {'apostille' : apostille, 'export_mode' : False}
+	request.session['form-submitted'] = False
 	return render(request, 'register/apostille_detail.html', context)
 
 

@@ -69,11 +69,11 @@ class DepartmentUser(models.Model):
 
 
 class ApostilleRequest(models.Model):
-    application_date = models.DateTimeField('Application Date', default=django.utils.timezone.now)
+    application_date = models.DateTimeField('Application Date', default=django.utils.timezone.now, blank=True)
     payment_file = models.FileField()
-    status = models.CharField(max_length=1, default='p', choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, default='p', choices=STATUS_CHOICES, blank=True)
     document = models.OneToOneField(Document, on_delete=models.CASCADE)
-    user = models.ForeignKey(DepartmentUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(DepartmentUser, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.document.name.encode('utf8')

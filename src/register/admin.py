@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 from django.conf import settings
+import django.utils
 
 # Register your models here.
 
@@ -27,7 +28,7 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 		form = super(ApostilleRequestAdmin, self).get_form(request, obj, **kwargs)
 
 		if not request.user.is_superuser:
-			self.fields = ('document', 'payment_file', 'user')
+			self.fields = ('document', 'payment_file')
 			
 		return form
 
@@ -36,6 +37,15 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 		if request.user.is_superuser:
 			return qs
 		return qs.filter(user__user=request.user)
+
+
+	def save_model(self, request, obj, form, change):
+		if not request.user.is_superuser:
+			obj.user = DepartmentUser.objects.get(user=request.user)
+			obj.status = 'p'
+			obj.application_date = django.utils.timezone.now()
+
+		obj.save()
 
 
 class ApostilleAdmin(admin.ModelAdmin):

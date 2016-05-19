@@ -20,7 +20,7 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 
 	def get_readonly_fields(self, request, obj=None):
 		if obj and not request.user.is_superuser:
-			return self.readonly_fields + tuple(['document', 'payment_file', 'user'])
+			return self.readonly_fields + tuple(['document', 'payment_file'])
 		return self.readonly_fields
 
 	def get_form(self, request, obj=None, **kwargs):
@@ -50,7 +50,7 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 
 class ApostilleAdmin(admin.ModelAdmin):
 	search_fields = ['request__document__name', 'validator__name', 'validator__surname']
-	list_display = ('get_name', 'validator')
+	list_display = ('get_name', 'validator', 'id')
 
 	def get_name(self, obj):
 		return obj.request

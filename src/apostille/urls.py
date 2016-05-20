@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+admin.site.site_url = None
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('register.urls'))

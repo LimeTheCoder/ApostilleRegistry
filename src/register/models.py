@@ -86,3 +86,6 @@ class Apostille(models.Model):
 
     def __str__(self):
         return self.request.document.name.encode('utf8')
+
+    def get_absolute_url(self):
+        return "/apostille/%i" % self.id

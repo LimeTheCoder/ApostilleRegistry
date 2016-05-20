@@ -36,7 +36,7 @@ def apostille_detail(request, id):
 		return render_to_pdf('register/apostille_detail.html', context)
 
 
-	if not request.session.get('form-submitted', False):
+	if not request.user.is_staff and not request.session.get('form-submitted', False):
 		return HttpResponse("No such page")
 
 	apostille = get_object_or_404(Apostille, pk=id)
@@ -51,13 +51,13 @@ def render_to_pdf(template_src, context_dict):
     html  = template.render(context)
     
     options = {
-    'page-size': 'Letter',
-    'margin-top': '0.75in',
-    'margin-right': '0.75in',
-    'margin-bottom': '0.75in',
-    'margin-left': '0.75in',
-    'encoding': "UTF-8"
-}
+		'page-size': 'Letter',
+		'margin-top': '0.75in',
+		'margin-right': '0.75in',
+		'margin-bottom': '0.75in',
+		'margin-left': '0.75in',
+		'encoding': "UTF-8"
+	}
 
     pdf = pdfkit.from_string(html, False, options=options)
     

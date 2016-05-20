@@ -38,7 +38,6 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 			return qs
 		return qs.filter(user__user=request.user)
 
-
 	def save_model(self, request, obj, form, change):
 		if not request.user.is_superuser:
 			obj.user = DepartmentUser.objects.get(user=request.user)

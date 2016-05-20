@@ -46,6 +46,13 @@ class ApostilleRequestAdmin(admin.ModelAdmin):
 
 		obj.save()
 
+	def change_view(self, request,object_id, form_url='', extra_context=None):
+		extra_context = extra_context or {}
+		if not request.user.is_superuser:
+			extra_context["readonly"] = True
+		return super(ApostilleRequestAdmin, self).change_view(request,object_id, form_url, extra_context)
+
+
 
 class ApostilleAdmin(admin.ModelAdmin):
 	search_fields = ['request__document__name', 'validator__name', 'validator__surname']
@@ -59,6 +66,11 @@ class ApostilleAdmin(admin.ModelAdmin):
 			return self.readonly_fields + tuple(['placing_date', 'request', 'validator'])
 		return self.readonly_fields
 
+	def change_view(self, request,object_id, form_url='', extra_context=None):
+		extra_context = extra_context or {}
+		if not request.user.is_superuser:
+			extra_context["readonly"] = True
+		return super(ApostilleAdmin, self).change_view(request,object_id, form_url, extra_context)
 
 	def get_queryset(self, request):
 		qs = super(ApostilleAdmin, self).get_queryset(request)
